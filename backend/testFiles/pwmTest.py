@@ -1,11 +1,11 @@
-#pwm test for motor control
+# pwm test for motor control
 
-#inputs for easy control
+# inputs for easy control
 import tty
 import sys
 import termios
 
-#imports for pwm use
+# imports for pwm use
 import wiringpi
 import time
 
@@ -19,21 +19,7 @@ wiringpi.pwmSetMode(wiringpi.GPIO.PWM_MODE_MS)
 wiringpi.pwmSetClock(10)
 wiringpi.pwmSetRange(1000)
 
-
-# comented block is for setting the terminal to accept stdin without 
-# the need for escape char
-
-# # saves standard input settings so that it can fix the 
-# # terminal after it is done
-# orig_settings = termios.tcgetattr(sys.stdin)
-# # sets the terminal to a mode that does not require an 
-# # escape key to accept input from stdin
-# tty.setraw(sys.stdin)
-
-
-
-# while x != chr(27): #
-
+# loop-de-loop input into stdin 'r' to run the motor 's' to stop it
 while 1:
     x=sys.stdin.read(1)
     if x == 'r':
@@ -42,9 +28,3 @@ while 1:
     if x == 's':
         #motor off
         wiringpi.pwmWrite(18, 0)
-
-    
-    
-    
-# # fixes the terminal
-# termios.tcsetattr(sys.stdin, termios.TCSADRAIN, orig_settings)
