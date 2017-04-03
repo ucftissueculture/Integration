@@ -22,15 +22,14 @@ gpio.setup(27, gpio.IN)
 #swc = gpio.input(27)
 
 while 1:
-    if gpio.input(27):
-        gpio.output(17,0)
-        wiringpi.pwmWrite(18, 0)
-	#wiringpi.pwmWrite(18, -10)
+    if gpio.input(27):				#switch is pressed
+        gpio.output(17,0)			#led off
+        wiringpi.pwmWrite(18, 0)		#motor off
 	print 'switch pressed'
 	print '\r'
     else:
-        gpio.output(17, 1)
-        wiringpi.pwmWrite(18, 600)
+        gpio.output(17, 1)			#led on
+        wiringpi.pwmWrite(18, 600)		#motor on
     
 wiringpi.pwmWrite(18,0)
 
