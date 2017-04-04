@@ -15,7 +15,7 @@ wiringpi.pwmSetRange(1000)
 #sets gpio to BCM pinout, followed by setting I/O pins
 gpio.setmode(gpio.BCM)
 gpio.setup(17, gpio.OUT)
-gpio.setup(27, gpio.IN, pull_up_down=GPIO.PUD_UP)
+gpio.setup(27, gpio.IN, pull_up_down=gpio.PUD_UP)
 
 #ledOn = gpio.output(17, 1)      #led on
 #ledOff = gpio.output(17, 0)     #led off
@@ -25,8 +25,9 @@ while 1:
     if gpio.input(27):				#switch is pressed
         gpio.output(17,0)			#led off
         wiringpi.pwmWrite(18, 0)		#motor off
-	if input_state == False:
-        	print('Button Pressed')
+	
+	#if input_state == False:
+        #	print('Button Pressed')
 		#print '\r' 			#carriage return, not really needed
     else:
         gpio.output(17, 1)			#led on
