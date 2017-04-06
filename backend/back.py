@@ -71,8 +71,6 @@ class Back(object):
         switchState = 0
         motorState = 1          #Motor on initially
 
-
-
         # initialization for filling
         wand1 = gpio.setup(5, gpio.OUT)
         wand2 = gpio.setup(6, gpio.OUT)
@@ -154,10 +152,10 @@ class Back(object):
 
     def ledBlink(self):
         gpio.output(24, 0)
-        time.sleep(1/10)
+        sleep(1/10)
         gpio.output(24, 1)
         gpio.output(24, 0)
-        time.sleep(1/10)
+        sleep(1/10)
         gpio.output(24, 1)
 
     def filling(self):
@@ -172,7 +170,7 @@ class Back(object):
         wand4.write(ON)
         wand5.write(ON)
 
-        time.sleep(duration)
+        sleep(duration)
 
         wand1.write(OFF)
         wand2.write(OFF)
@@ -187,7 +185,7 @@ class Back(object):
 
     def switchBlock(self):
         ledBlink
-        time.sleep(5)
+        sleep(5)
         if swc[1]:
             motorOff
         if swc[1] != 1 and motorState = 0
