@@ -17,7 +17,7 @@ def run_program():
     while 1:
         if swc:
             back.motorOff()
-            back.ledOff
+            back.ledOff()
 
         else:
             back.motorOn()
@@ -46,4 +46,3 @@ if __name__ == '__main__':
     original_sigint = signal.getsignal(signal.SIGINT)
     signal.signal(signal.SIGINT, exit_gracefully)
     run_program()
-WIP on master
