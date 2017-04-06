@@ -41,21 +41,21 @@ def run_program():
     while 1:
         if swc[0]:
             back.switchFill()
-            filled++
+            filled += 1
         
         if swc[1]:
             back.switchBlock()
             
         if swc[2]:
             #capping
-            capped++
+            capped += 1
 
         if swc[3]:
             back.switchBlock()
 
         if swc[4]:
             back.switchBlock()
-            complete++
+            complete += 1
 
         else:
             back.motorOn()
