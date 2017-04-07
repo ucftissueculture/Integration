@@ -6,6 +6,7 @@
 from tkinter import *
 from tkinter import ttk
 from time import time as tm
+import time
 
 #Import libraries needed for saving to excel
 import openpyxl
@@ -166,7 +167,6 @@ class Application(Frame):
         mediaType = self.media.get()
         startVol = self.mstartVol.get()
         processType = self.process.get()
-        numTrays = self.trayprocess()
         fillVol = numTrays * 30 * 30 / 1000
 
         # this will help check that a media volume is entered
@@ -190,12 +190,13 @@ class Application(Frame):
             # print values to "Current Process"
             self.mediaValue["text"] = mediaType
             self.processValue["text"] = processType
-            self.trayValue["text"] = numTrays.__str__()
-            self.fillValue["text"] = fillVol.__str__()
 
             # Change button states
             self.select.config(state=DISABLED)
             self.stop.config(state=NORMAL)
+
+            # Start process
+            self.runprocess()
 
     def reset(self):
 
@@ -363,7 +364,46 @@ class Application(Frame):
         self.select.config(state=NORMAL)
 
     # change to actual process method
-    def trayprocess(self):
+    def runprocess(self):
+
+        if (processType == "Automated"):
+            self.trayValue["text"] = "Lolz"
+            global startVol
+            intVol = int(startVol.replace(',',''))
+            traylimit = intVol * 1000 / 30 / 30
+            n = 0
+            while (traylimit > 0):
+                numTrays = n
+                fillVol = float(numTrays) * 30 * 30 / 1000
+
+                self.trayValue["text"] = numTrays.__str__()
+                self.fillValue["text"] = fillVol.__str__()
+
+                traylimit = traylimit - 1
+                print("loz" + numTrays.__str__())
+                print traylimit.__str__()
+                n = n + 1
+
+        elif (processType == "Manual"):
+            self.trayValue["text"] = "Lolz 2"
+            num = 10
+
+            for counter in range(num):
+                numTrays = num
+                fillVol = numTrays * 30 * 30 / 1000
+                self.trayValue["text"] = numTrays.__str__()
+                self.fillValue["text"] = fillVol.__str__()
+
+            print ("MADE IT")
+
+        elif (processType == "Testing"):
+            self.trayValue["text"] = "Lolz 3"
+
+            numTrays = 300
+            fillVol = numTrays * 30 * 30
+
+        else:
+            print("Error.")
         trays = 200
         return trays
 
