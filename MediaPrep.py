@@ -100,54 +100,6 @@ class Application(Frame):
         #Pack Frame
         self.sframe.pack(fill="both", expand="yes", anchor='w')
 
-    # Create Current Process Frame
-    def create_results(self):
-        self.rframe = ttk.LabelFrame(root, height=200, width=500, text='Current Process')
-        self.rframe.config(padding=(10, 10))
-
-        # Create the 'Media Type' label
-        self.lbl_media2 = Label(self.rframe, justify=RIGHT, padx=10, text="Media Type:", font="Verdana 10")
-        self.lbl_media2.grid(column=1,row=1)
-
-        # Create Media Type value label
-        self.mediaValue = Label(self.rframe, justify=LEFT, padx=10, text="")
-        self.mediaValue.grid(column=2,row=1)
-
-        # Create the 'Process Type' label
-        self.lbl_process2 = Label(self.rframe, justify=RIGHT, padx=10, text="Process Type:", font="Verdana 10")
-        self.lbl_process2.grid(column=1, row=2)
-
-        # Create Process Type value label
-        self.processValue = Label(self.rframe, justify=LEFT, padx=10, text="")
-        self.processValue.grid(column=2, row=2)
-
-        # Create the 'Tray Type' label
-        self.lbl_trayType = Label(self.rframe, justify=RIGHT, padx=10, text="Tray Type:", font="Verdana 10")
-        self.lbl_trayType.grid(column=1, row=3)
-
-        # Create Trays Completed value label
-        self.trayTypeValue = Label(self.rframe, justify=LEFT, padx=10, text="")
-        self.trayTypeValue.grid(column=2, row=3)
-
-        # Create the 'Trays Completed' label
-        self.lbl_numTrays = Label(self.rframe, justify=RIGHT, padx=10, text="Trays Completed:", font="Verdana 10")
-        self.lbl_numTrays.grid(column=1,row=4)
-
-        # Create Trays Completed value label
-        self.trayValue = Label(self.rframe, justify=LEFT, padx=10, text="")
-        self.trayValue.grid(column=2, row=4)
-
-        # Create the 'Filled Volume' label
-        self.lbl_fillVol = Label(self.rframe, justify=RIGHT, padx=10, text="Filled Volume (L):", font="Verdana 10")
-        self.lbl_fillVol.grid(column=1,row=5)
-
-        # Create Filled Volume value label
-        self.fillValue = Label(self.rframe, justify=LEFT, padx=10, text="")
-        self.fillValue.grid(column=2, row=5)
-
-        #Pack Frame
-        self.rframe.pack(fill="both", expand="yes",anchor='w')
-
     # Create Button Frame
     def create_buttons(self):
         self.bframe = ttk.Frame(root)
@@ -167,7 +119,7 @@ class Application(Frame):
         #Pack Frame
         self.bframe.pack()
 
-    # Handle the clicking of the 'Start Process' button
+    #This method handles the clicking of the 'Start Process' button
     def selectClick(self):
         # set current time as t0
         global t0
@@ -200,11 +152,6 @@ class Application(Frame):
             button.pack()
 
         else:
-            # print values to "Current Process"
-            self.mediaValue["text"] = mediaType
-            self.trayTypeValue["text"] = trayType
-            self.processValue["text"] = processType
-
             # Change button states
             self.select.config(state=DISABLED)
             self.stop.config(state=NORMAL)
@@ -212,12 +159,10 @@ class Application(Frame):
             # Start process
             self.runprocess()
 
-	#Should run all 3 process types, this logic needs to be updated.
+	#This method will run the individual logic of every process
     def runprocess(self):
-
-		#Automated process
+		#Automated process, so get the starting volume and use that as limit for number of trays that can be run.
         if (processType == "Automated"):
-            self.trayValue["text"] = "Lolz"
             global startVol
             intVol = int(startVol.replace(',', ''))
             traylimit = intVol * 1000 / 30 / 30
@@ -226,46 +171,36 @@ class Application(Frame):
                 numTrays = n
                 fillVol = float(numTrays) * 30 * 30 / 1000
 
-                self.trayValue["text"] = numTrays.__str__()
-                self.fillValue["text"] = fillVol.__str__()
-
                 traylimit = traylimit - 1
                 print("loz" + numTrays.__str__())
                 print traylimit.__str__()
                 n = n + 1
-        
-		#Manual process
-		elif (processType == "Manual"):
-            self.trayValue["text"] = "Needs input"
+        elif (processType == "Manual"):
+            print ("MADE IT")
 
-		#Testing process
         elif (processType == "Testing"):
+
             numTrays = 300
             fillVol = numTrays * 30 * 30
 
-		#Incorrect selection, so error
         else:
             print("Error.")
-        
-		#Take this out when you get number of trays from the individual process
-		trays = 200
+        trays = 200
         return trays
 
-	#This method will run when the STOP button is pressed
     def stopClick(self):
 
-        # calculate run time
-        global t0, rtime, finalt, errormsg
+        # Get the global version of variables and calculate the run time
+        global t0, rtime, finalt, errormsg, processType
         rtime = tm() - t0
         finalt = self.formtime()
 
-        # get final output from global variables already calculated
-        global processType
-
+		#Automated, so just call the save and display method
         if processType == "Automated":
             save = self.save_and_display()
-        elif processType == "Manual":
-
+        
+		#Manual, so take in input on number of trays completed and use that to calculate the filled volume. Then call save and diaplay.
+		elif processType == "Manual":
             inputwindow = Toplevel(root)
             inputwindow.title("Input Manual Results")
             inputwindow.geometry("%dx%d%+d%+d" % (300, 200, 250, 125))
@@ -288,9 +223,11 @@ class Application(Frame):
             resetbtn = Button(inputwindow, text="Done", command=self.save_and_display, padx=10, pady=5)
             resetbtn.pack()
 
+		#Testing, so just reset values after process is stopped.
         elif processType == "Testing":
             self.reset()
 
+		#No process entered, so will throw error
         else:
             errormsg = "No process type."
 
@@ -298,7 +235,7 @@ class Application(Frame):
         self.stop.config(state=DISABLED)
         self.select.config(state=NORMAL)
 
-	#This will save the results by calling the savedata method and displays them to the results window
+	#This method calls the save method and displays the process results to the user
     def save_and_display(self):
 
         global mediaType, processType, numTrays, fillVol, finalt, errormsg, trayType
@@ -321,7 +258,7 @@ class Application(Frame):
         resetbtn = Button(finalout, text="Reset Values", command=self.reset, padx=7, pady=5)
         resetbtn.pack()
 
-	#This formats the runtime to the H:M:S format
+	#This method formats the run time to H:M:S
     def formtime(self):
         global rtime
         m, s = divmod(rtime, 60)
@@ -329,7 +266,7 @@ class Application(Frame):
         ftime = "%02d:%02d:%02d" % (h, m, s)
         return ftime
 
-	#This process handles the saving of data to an Excel file
+	#This method will save the results data to an Excel sheet
     def savedata(self):
         print "SAVING...."
         # Get current month and year info
@@ -426,13 +363,16 @@ class Application(Frame):
                 # Save file
                 datalog.save(filename)
                 print "SAVING COMPLETE."
-
+		
+		#If there is a problem saving the file, an error will be returned and shown to the user
         except Exception:
             error = "Problem saving to file. Please manually enter data into file if you would like it to be logged"
             return error
-        return ""
+        
+		#Will return empty message if no error
+		return ""
 
-	#This resets the values on the application screen in preparation for a new process
+	#This performs a reset of all values on the main application window
     def reset(self):
         global trayType
         trayType = "None"
@@ -440,17 +380,10 @@ class Application(Frame):
         # Reset Input Values
         self.media.set("None")
         mediaType = "None"
+		trayType = "None"
         self.mstartVol.delete(0, 'end')
         self.process.set("None")
         processType = "None"
-
-        # Reset Output Values
-        self.mediaValue["text"] = ""
-        self.processValue["text"] = ""
-		self.trayTypeValue["text"] = ""
-        self.trayValue["text"] = ""
-        self.fillValue["text"] = ""
-        self.rtValue = "00:00:00"
 
         # Reset timer
         global rtime
