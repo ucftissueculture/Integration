@@ -210,7 +210,7 @@ class Application(Frame):
 
             # Create the window that will structure the testing mode
             testwindow = Toplevel(root)
-            testwindow.title = "Testing Mode"
+            testwindow.title = ("Testing Mode")
 
             # Add a label, description, and button for each test:
             # Test 1
@@ -302,7 +302,7 @@ class Application(Frame):
             inputwindow.title("Input Manual Results")
             inputwindow.geometry("%dx%d%+d%+d" % (300, 200, 250, 125))
 
-            lbl_msg = Label(inputwindow, justify=RIGHT, padx=30, pady=20, text="Input type & number of trays completed:", font="Verdana 10")
+            lbl_msg = Label(inputwindow, justify=RIGHT, padx=30, pady=20, text="Input number of trays completed:", font="Verdana 10")
             lbl_msg.pack()
 
             # Create the 'Trays Completed' label
@@ -320,7 +320,7 @@ class Application(Frame):
             submittbtn = Button(inputwindow, text="Done", command=self.save_and_display, padx=10, pady=5)
             submittbtn.pack()
 
-		#Testing, so just reset values after process is stopped.
+		#Testing, so just state that process is stopped.
         elif processType == "Testing":
             print "Done with Testing process."
 
@@ -472,8 +472,9 @@ class Application(Frame):
 
         #There is an issue saving the file, so set message that will prompt the user to manually save data.
         except Exception:
-            error = "Problem saving to file. Please manually enter data into file if you would like it to be logged."
-            return error
+            global errormsg
+            errormsg = "Problem saving to file. Please manually enter data \ninto file if you would like it to be logged."
+            return errormsg
         return ""
 
 	# This performs a reset of all values on the main application window
