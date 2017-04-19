@@ -72,11 +72,7 @@ class Back(object):
         motorState = 1          #Motor on initially
 
         # initialization for filling
-        wand1 = gpio.setup(5, gpio.OUT)
-        wand2 = gpio.setup(6, gpio.OUT)
-        wand3 = gpio.setup(16,gpio.OUT)
-        wand4 = gpio.setup(25,gpio.OUT)
-        wand5 = gpio.setup(26, gpio.OUT)
+        gpio.setup(26, gpio.OUT)
 
 ########################END OF __INIT__########################
 
@@ -159,24 +155,12 @@ class Back(object):
         gpio.output(24, 1)
 
     def filling(self):
-        ON = 0
-        OFF = 1
-
-        duration = 4
-
-        wand1.write(ON)
-        wand2.write(ON)
-        wand3.write(ON)
-        wand4.write(ON)
-        wand5.write(ON)
-
-        sleep(duration)
-
-        wand1.write(OFF)
-        wand2.write(OFF)
-        wand3.write(OFF)
-        wand4.write(OFF)
-        wand5.write(OFF)
+        # ON = 0
+        # OFF = 1
+        # duration = 4
+        gpio.output(26, 0)
+        sleep(4)
+        gpio.output(26, 1)
 
     def switchFill(self):
         motorOff
