@@ -227,7 +227,7 @@ class Application(Frame):
             lbl_test2 = Label(testwindow, justify=RIGHT, padx=15, pady=5, text="Test 2: Limit Switch Test", font="Verdana 10 bold")
             lbl_test2.grid(column=1, row=4)
             des_test2 = Label(testwindow, justify=RIGHT, padx=15,
-                              text="This test will run read inputs to limit switches to ensure they are working properly.",
+                              text="This test will run and read inputs to limit switches to ensure they are working properly.",
                               font="Verdana 10")
             des_test2.grid(column=1, row=5)
             btn_test2 = Button(testwindow, text="Run Test 2", command=self.test2, padx=10, pady=5)
@@ -237,24 +237,35 @@ class Application(Frame):
             lbl_test3 = Label(testwindow, justify=RIGHT, padx=15, pady=5, text="Test 3: Line Movement Test", font="Verdana 10 bold")
             lbl_test3.grid(column=1, row=7)
             des_test3 = Label(testwindow, justify=RIGHT, padx=15,
-                              text="This test will run the line without filling to ensure proper positioning and handling of trays.",
+                              text="This test will run the line without triggering filling to ensure proper positioning and handling of trays.",
                               font="Verdana 10")
             des_test3.grid(column=1, row=8)
             btn_test3 = Button(testwindow, text="Run Test 3", command=self.test3, padx=10, pady=5)
             btn_test3.grid(column=1, row=9)
 
+            # Test 4
+            lbl_test4 = Label(testwindow, justify=RIGHT, padx=15, pady=5, text="Test 4: Filling Flush Test",
+                              font="Verdana 10 bold")
+            lbl_test4.grid(column=1, row=10)
+            des_test4 = Label(testwindow, justify=RIGHT, padx=15,
+                              text="This test will run a flush of the filling system in order to clean it out.",
+                              font="Verdana 10")
+            des_test4.grid(column=1, row=11)
+            btn_test4 = Button(testwindow, text="Run Test 4", command=self.test4, padx=10, pady=5)
+            btn_test4.grid(column=1, row=12)
+
             #Purely aesthetic
             lbl_pretty = Label(testwindow, justify=RIGHT, padx=15, pady=3, text="", font="Verdana 10 bold")
-            lbl_pretty.grid(column=1, row=10)
+            lbl_pretty.grid(column=1, row=13)
 
             # Purely aesthetic
             lbl_remind = Label(testwindow, justify=RIGHT, padx=15, pady=10,
                                text="Note: Remember to still press STOP on main window.", font="Verdana 10")
-            lbl_remind.grid(column=1, row=11)
+            lbl_remind.grid(column=1, row=14)
 
             # Button to finish testing and exit
             btn_closetest = Button(testwindow, text="Finish Test Cases", font="Verdana 10 bold", command=testwindow.destroy, padx=10, pady=5)
-            btn_closetest.grid(column=1,row=12)
+            btn_closetest.grid(column=1,row=15)
 
             print "Running Tests."
 
@@ -276,6 +287,11 @@ class Application(Frame):
     def test3(self):
         # Add method from back-end to run Test 3
         print "Test 3 complete."
+
+    # This method runs test 4 in the testing mode by calling back-end script
+    def test4(self):
+        # Add method from back-end to run Test 4
+        print "Test 4 complete."
 
     # This handles the logic of pressing the stop button on the application. This will end whatever process
     # in running on the back-end.
@@ -507,6 +523,7 @@ class Application(Frame):
         self.select.config(state=NORMAL)
 
     # Create Current Process Frame - REMOVED FOR PROTOTYPE
+    # If implemted, the grid col, row for the button frame will have to be edited
     def create_results(self):
         self.rframe = ttk.LabelFrame(root, height=200, width=500, text='Current Process')
         self.rframe.config(padding=(10, 10))
